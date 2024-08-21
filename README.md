@@ -20,9 +20,9 @@ usage: ifc-meta-extractor [-h] -i INPUT -o OUTPUT
 Process Extract IFC metadata to JSON
 
 options:
-  -h, --help          show this help message and exit
-  -i INPUT, --input   INPUT Path to the input IFC file.
-  -o OUTPUT, --output OUTPUT Path to the output JSON file.
+  -h, --help                    Show this help message and exit
+  -i INPUT, --input INPUT       Path to the input IFC file.
+  -o OUTPUT, --output OUTPUT    Path to the output JSON file.
 ```
 
 Example
