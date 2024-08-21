@@ -146,6 +146,7 @@ class IFCMetadataExtractor:
     def _add_groups(self) -> None:
         """Extracts IfcGroup and related elements."""
         groups = []
+
         for group in self.ifc_file.by_type('IfcGroup'):
             group_info = {
                 "id": group.id(),
@@ -154,11 +155,18 @@ class IFCMetadataExtractor:
                 "type": str(group.is_a()),
                 "items": []
             }
+
             for rel in group.IsGroupedBy:
                 if rel.is_a('IfcRelAssignsToGroup'):
-                    group_info["items"].extend(
-                        [item.GlobalId for item in rel.RelatedObjects])
+                    for item in rel.RelatedObjects:
+                        item_info = {
+                            "name": str(item.Name),
+                            "ifcId": item.GlobalId
+                        }
+                        group_info["items"].append(item_info)
+
             groups.append(group_info)
+
         self.data["groups"] = groups
 
     def _add_ifc_projects(self) -> None:
