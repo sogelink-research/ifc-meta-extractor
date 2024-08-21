@@ -67,11 +67,12 @@ class IFCMetadataExtractor:
         """Extracts information from the type."""
         return {'name': type.Name}
 
-    def _get_element(self, element) -> Dict[str, Any]:
+    def _get_element(self, element, parentId) -> Dict[str, Any]:
         """Extracts information from the element."""
         result = {
             'id': element.id(),
-            'globalId': element.GlobalId,
+            'ifcId': element.GlobalId,
+            'parentId': parentId,
             'type': str(element.is_a()),
             'name': str(element.Name),
             'properties': [],
@@ -102,11 +103,13 @@ class IFCMetadataExtractor:
         if element.is_a('IfcSpatialStructureElement'):
             for rel in element.ContainsElements:
                 for child in rel.RelatedElements:
-                    result['children'].append(self._get_element(child))
+                    result['children'].append(
+                        self._get_element(child, result['id']))
         if element.is_a('IfcObjectDefinition'):
             for rel in element.IsDecomposedBy:
                 for child in rel.RelatedObjects:
-                    result['children'].append(self._get_element(child))
+                    result['children'].append(
+                        self._get_element(child, result['id']))
 
     def _add_layers(self) -> None:
         """Extracts IfcPresentationLayerAssignment and related elements."""
@@ -140,7 +143,7 @@ class IFCMetadataExtractor:
     def _add_ifc_projects(self) -> None:
         """Extracts IfcProject and related elements."""
         projects = [
-            self._get_element(project)
+            self._get_element(project, -1)
             for project in self.ifc_file.by_type('IfcProject')
         ]
         self.data["projects"] = projects
