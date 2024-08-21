@@ -27,10 +27,11 @@ def get_args() -> argparse.Namespace:
     Returns:
         argparse.Namespace: Parsed command line arguments.
     """
-    parser = argparse.ArgumentParser(description="Process IFC file to JSON")
-    parser.add_argument('--input', required=True,
+    parser = argparse.ArgumentParser(
+        description="Extract IFC metadata to JSON")
+    parser.add_argument('-i', '--input', required=True,
                         help="Path to the input IFC file.")
-    parser.add_argument('--output', required=True,
+    parser.add_argument('-o', '--output', required=True,
                         help="Path to the output JSON file.")
     return parser.parse_args()
 
