@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 
 setup(
-    name='ifc_metadata_extractor',
+    name='IFC Meta Extractor',
     version='0.1',
     description='A tool for extracting metadata from IFC files and saving it as JSON',
     long_description=open('README.md').read(),
@@ -12,6 +12,7 @@ setup(
     package_dir={'': 'src'},
     install_requires=[
         'ifcopenshell==0.7.10',
+        'wheel==0.44.0'
     ],
     classifiers=[
         'Programming Language :: Python :: 3',
