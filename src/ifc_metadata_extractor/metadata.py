@@ -150,7 +150,7 @@ class IFCMetadataExtractor:
         for group in self.ifc_file.by_type('IfcGroup'):
             group_info = {
                 "id": group.id(),
-                "globalId": group.GlobalId,
+                "ifcId": group.GlobalId,
                 "name": str(group.Name),
                 "type": str(group.is_a()),
                 "items": []
