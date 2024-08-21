@@ -113,13 +113,34 @@ class IFCMetadataExtractor:
 
     def _add_layers(self) -> None:
         """Extracts IfcPresentationLayerAssignment and related elements."""
-        layers = [
-            {
+        layers = []
+
+        for layer_assignment in self.ifc_file.by_type('IfcPresentationLayerAssignment'):
+            layer_data = {
                 "name": layer_assignment.Name,
-                "items": [item.id() for item in layer_assignment.AssignedItems]
+                "items": []
             }
-            for layer_assignment in self.ifc_file.by_type('IfcPresentationLayerAssignment')
-        ]
+
+            for item in layer_assignment.AssignedItems:
+                parent_product = None
+
+                # Search through all IfcProducts to find the one that uses this shape representation
+                for product in self.ifc_file.by_type('IfcProduct'):
+                    if hasattr(product, 'Representation') and product.Representation is not None:
+                        representations = product.Representation.Representations
+                        if item in representations:
+                            parent_product = product
+                            break
+
+                if parent_product:
+                    # Add the parent's name and GlobalId to the layer items
+                    layer_data["items"].append({
+                        "name": parent_product.Name,
+                        "ifcId": parent_product.GlobalId
+                    })
+
+            layers.append(layer_data)
+
         self.data["layers"] = layers
 
     def _add_groups(self) -> None:
