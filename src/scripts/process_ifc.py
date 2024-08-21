@@ -14,7 +14,7 @@ def save_json(data: Dict[str, Any], output_file: str) -> None:
     """
     try:
         with open(output_file, 'w', encoding='utf-8') as outfile:
-            json.dump(data, outfile, indent=2)
+            json.dump(data, outfile, ensure_ascii=False, indent=2)
         print(f"Data successfully saved to {output_file}")
     except IOError as e:
         print(f"Failed to save data to {output_file}: {e}")
