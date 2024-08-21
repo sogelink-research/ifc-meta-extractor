@@ -1,8 +1,10 @@
 # ifc-meta-extractor
 
-Extract metadata from an IFC file and save it to a JSON file.
+Extract metadata from an IFC file using [IfcOpenShell](https://ifcopenshell.org/) and save it to a JSON file.
 
 ## Dev
+
+Setup a virtual environment and install the package in editable mode.
 
 ```sh
 python -m venv venv
